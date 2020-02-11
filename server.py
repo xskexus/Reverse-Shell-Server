@@ -9,6 +9,9 @@ class Echo(protocol.Protocol):
     def connectionMade(self):
         clients.append(self)
 
+    def dataReceived(self, data):
+        print(data.decode('utf-8'))
+
     def connectionLost(self, reason):
         clients.pop(clients.index(self))
 
