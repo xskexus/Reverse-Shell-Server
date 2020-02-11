@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from twisted.internet import protocol, reactor, endpoints
 from threading import Thread
+from socket import gethostbyaddr
 clients = []
 lol = ""
 
@@ -10,7 +11,7 @@ class Echo(protocol.Protocol):
         clients.append(self)
 
     def dataReceived(self, data):
-        print(data.decode('utf-8'))
+        print(data.decode('utf-8') + f"\n> ", end='')
 
     def connectionLost(self, reason):
         clients.pop(clients.index(self))
@@ -18,7 +19,8 @@ class Echo(protocol.Protocol):
 
 class EchoFactory(protocol.Factory):
     def buildProtocol(self, addr):
-        print(f"connection from, {addr.host} on port, {addr.port}")
+        print(
+            f"\rconnection from, {addr.host} on port, {addr.port}\n> ", end='')
         Echo.addr = addr
         return Echo()
 
@@ -26,7 +28,7 @@ class EchoFactory(protocol.Factory):
 def thr_test():
     n = ""
     while n != "exit":
-        n = input("> ")
+        n = input(f"> ")
         if len(clients) > 0:
             clients[0].transport.write(str.encode(n + "\n"))
 
