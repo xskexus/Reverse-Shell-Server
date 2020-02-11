@@ -6,6 +6,11 @@ clients = []
 lol = ""
 
 
+def list_connections():
+    for c in range(len(clients)):
+        print(f"{c}: {clients[c].addr.host}\n")
+
+
 class Echo(protocol.Protocol):
     def connectionMade(self):
         clients.append(self)
@@ -27,10 +32,21 @@ class EchoFactory(protocol.Factory):
 
 def thr_test():
     n = ""
+    con_id = 0
     while n != "exit":
         n = input(f"> ")
-        if len(clients) > 0:
-            clients[0].transport.write(str.encode(n + "\n"))
+        if len(clients) < 1:
+            print("no connections")
+            continue
+        if n == "clients":
+            list_connections()
+        elif n.split()[0] == "select":
+            try:
+                con_id = int(n.split()[1])
+            except:
+                print("please enter a valid number")
+        else:
+            clients[con_id].transport.write(str.encode(n))
 
 
 endpoints.serverFromString(reactor, "tcp:42069").listen(EchoFactory())
