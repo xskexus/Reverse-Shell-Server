@@ -7,6 +7,7 @@ PORT = 42069
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
+    s.send(str.encode("hostname " + socket.gethostname()))
     while True:
         data = s.recv(2048).decode('utf-8').strip()
         if len(data) == 0:
