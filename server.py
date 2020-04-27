@@ -3,7 +3,7 @@ from twisted.internet import protocol, reactor, endpoints
 from threading import Thread
 from socket import gethostbyaddr
 clients = []
-
+port = "42069"
 con_id = None
 
 
@@ -73,7 +73,7 @@ def thr_test():
                 clients[con_id].transport.write(str.encode(n) + b"\n")
 
 
-endpoints.serverFromString(reactor, "tcp:42069").listen(EchoFactory())
+endpoints.serverFromString(reactor, f"tcp:{port}").listen(EchoFactory())
 thr1 = Thread(target=thr_test)
 thr1.start()
 
