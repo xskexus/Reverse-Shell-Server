@@ -3,7 +3,7 @@ from twisted.internet import protocol, reactor, endpoints
 from threading import Thread
 from socket import gethostbyaddr
 clients = []
-lol = ""
+
 con_id = None
 
 
@@ -68,9 +68,9 @@ def thr_test():
         else:
             if con_id not in range(len(clients)):
                 for i in range(len(clients)):
-                    clients[i].transport.write(str.encode(n))
+                    clients[i].transport.write(str.encode(n) + b"\n")
             else:
-                clients[con_id].transport.write(str.encode(n))
+                clients[con_id].transport.write(str.encode(n) + b"\n")
 
 
 endpoints.serverFromString(reactor, "tcp:42069").listen(EchoFactory())
