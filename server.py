@@ -3,7 +3,7 @@ from twisted.internet import protocol, reactor, endpoints
 from threading import Thread
 from socket import gethostbyaddr
 clients = []
-port = "42069"
+port = "22443"
 con_id = None
 
 
